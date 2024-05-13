@@ -1,95 +1,79 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+import { Grid, Typography, TextField, Button, Card, CardContent } from '@mui/material';
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
 
-export default function Home() {
+const LoginPage = () => {
+  const handleSubmit = (values:any) => {
+    console.log(values); // You can handle form submission here
+    // Example: Send formData to your backend for authentication
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <Grid container justifyContent="center" alignItems="center" style={{ height: '90vh' }}>
+      <Grid item xs={10} sm={6} md={4}>
+        <Card variant="outlined" style={{ borderRadius: "20px" }}>
+          <CardContent>
+            <Typography variant="h4" align="center" gutterBottom>
+              Login
+            </Typography>
+            <Formik
+              initialValues={{ username: '', password: '' }}
+              onSubmit={handleSubmit}
+              validate={(values) => {
+                const errors = {};
+                if (!values.username) {
+                  errors.username = 'Required';
+                }
+                if (!values.password) {
+                  errors.password = 'Required';
+                }
+                return errors;
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <Field name="username">
+                    {({ field, meta }) => (
+                      <TextField
+                        {...field}
+                        label="Username"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        error={meta.touched && meta.error}
+                        helperText={meta.touched && meta.error}
+                      />
+                    )}
+                  </Field>
+                  <Field name="password">
+                    {({ field, meta }) => (
+                      <TextField
+                        {...field}
+                        label="Password"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        type="password"
+                        error={meta.touched && meta.error}
+                        helperText={meta.touched && meta.error}
+                      />
+                    )}
+                  </Field>
+                  <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginBottom: '10px' }} disabled={isSubmitting}>
+                    {isSubmitting ? 'Logging in...' : 'Login/Sign in'}
+                  </Button>
+                  <Button variant="contained" color="primary" fullWidth disabled={isSubmitting}>
+                    Continue with Google
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
-}
+};
+
+export default LoginPage;
