@@ -4,7 +4,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 
 const LoginPage = () => {
-  const handleSubmit = (values:any) => {
+  const handleSubmit = (values) => {
     console.log(values); // You can handle form submission here
     // Example: Send formData to your backend for authentication
   };
